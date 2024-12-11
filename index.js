@@ -4,17 +4,19 @@ const { buildSchema } = require('graphql');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
-// Define el esquema
+// Define el esquema de GraphQL
+// Aquí se define un esquema simple con una consulta llamada 'hello' que devuelve un String
 const schema = buildSchema(`
   type Query {
     hello: String
   }
 `);
 
-// Define los resolvers
+// Define los resolvers de GraphQL
+// Los resolvers son funciones que resuelven las consultas definidas en el esquema
 const root = {
   hello: () => {
-    return '¡Hola Mundo!';
+    return '¡Hola Mundo!'; // Esta función devuelve el mensaje '¡Hola Mundo!' cuando se consulta 'hello'
   },
 };
 
@@ -67,10 +69,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *                       type: string
  *                       example: "¡Hola Mundo!"
  */
+// Configura el middleware de GraphQL
+// Este middleware procesa las consultas GraphQL enviadas a la ruta '/graphql'
 app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: root,
-  graphiql: true,
+  schema: schema, // Esquema de GraphQL
+  rootValue: root, // Resolvers de GraphQL
+  graphiql: true, // Habilita la interfaz GraphiQL para probar consultas
 }));
 
 // Ruta para la raíz
